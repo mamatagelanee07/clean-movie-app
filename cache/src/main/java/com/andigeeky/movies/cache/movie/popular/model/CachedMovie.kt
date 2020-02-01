@@ -4,11 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.andigeeky.movies.cache.movie.db.MovieDBQueries
-import com.andigeeky.movies.cache.movie.db.convertors.IntListTypeConvertor
+import com.andigeeky.movies.cache.movie.db.convertors.IntListTypeConverter
 import com.andigeeky.movies.data.movies.popular.model.MovieEntity
 
 @Entity(tableName = MovieDBQueries.TABLE_POPULAR_MOVIES)
-@TypeConverters(IntListTypeConvertor::class)
+@TypeConverters(IntListTypeConverter::class)
 data class CachedMovie(
     val adult: Boolean,
     val backdropPath: String,
