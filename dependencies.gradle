@@ -23,7 +23,7 @@ ext {
     gsonVersion = '2.8.1'
     okHttpVersion = '3.8.1'
     androidAnnotationsVersion = '21.0.3'
-    retrofitVersion = '2.3.0'
+    retrofitVersion = '2.7.1'
     roomVersion = '2.2.3'
     timberVersion = '4.5.1'
     glideVersion = '4.0.0'
@@ -44,6 +44,7 @@ ext {
     androidSupportRulesVersion = '1.0.0'
     dexmakerMockitoversion = '2.2.0'
     runnerVersion = '0.5'
+    mockwebserver = '4.3.1'
 
     domainDependencies = [
             javaxAnnotation:    "javax.annotation:javax.annotation-api:${javaxAnnotationVersion}",
@@ -155,7 +156,8 @@ ext {
             okHttpLogger:       "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
             retrofit:           "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitConverter:  "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
-            retrofitAdapter:    "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+            retrofitAdapter:    "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            mockWebServer:      "com.squareup.okhttp3:mockwebserver:${mockwebserver}"
     ]
 
     remoteTestDependencies = [
@@ -165,7 +167,9 @@ ext {
             mockito:            "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
             supportRunner:      "com.android.support.test:runner:${androidSupportRunnerVersion}",
             supportRules:       "com.android.support.test:rules:${androidSupportRulesVersion}",
-            robolectric:        "org.robolectric:robolectric:${robolectricVersion}"
+            robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
+            mockWebServer:      "com.squareup.okhttp3:mockwebserver:${mockwebserver}",
+            retrofit:           "com.squareup.retrofit2:retrofit:${retrofitVersion}",
     ]
 
     mobileUiDependencies = [
