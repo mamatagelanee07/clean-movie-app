@@ -1,14 +1,14 @@
-package com.andigeeky.movies.data.movies
+package com.andigeeky.movies.cache.movie
 
+import com.andigeeky.movies.cache.movie.popular.model.CachedMovie
 import com.andigeeky.movies.data.movies.popular.model.MovieEntity
-import com.andigeeky.movies.domain.movies.popular.model.Movie
 
 internal object MoviesFactory {
-    fun getMoviesEntity(count: Int) : List<MovieEntity>{
-        val movies = mutableListOf<MovieEntity>()
+    fun getMoviesCache(count: Int) : List<CachedMovie>{
+        val movies = mutableListOf<CachedMovie>()
         repeat(count) { index ->
             movies.add(
-                MovieEntity(
+                CachedMovie(
                     adult = false,
                     backdropPath = "/ndlQ2Cuc3cjTL7lTynw6I4boP4S.jpg",
                     genreIds = listOf(index, index * 10, index * 20),
@@ -29,11 +29,11 @@ internal object MoviesFactory {
         return movies
     }
 
-    fun getMovies(count: Int) : List<Movie>{
-        val movies = mutableListOf<Movie>()
+    fun getMoviesEntity(count: Int) : List<MovieEntity>{
+        val movies = mutableListOf<MovieEntity>()
         repeat(count) { index ->
             movies.add(
-                Movie(
+                MovieEntity(
                     adult = false,
                     backdropPath = "/ndlQ2Cuc3cjTL7lTynw6I4boP4S.jpg",
                     genreIds = listOf(index, index * 10, index * 20),

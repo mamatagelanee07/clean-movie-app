@@ -2,7 +2,7 @@ package com.andigeeky.movies.domain.test
 
 import com.andigeeky.movies.domain.movies.popular.model.Movie
 
-object MoviesFactory {
+internal object MoviesFactory {
     fun getMovies(count: Int) : List<Movie>{
         val movies = mutableListOf<Movie>()
         repeat(count) { index ->

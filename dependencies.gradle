@@ -24,7 +24,7 @@ ext {
     okHttpVersion = '3.8.1'
     androidAnnotationsVersion = '21.0.3'
     retrofitVersion = '2.3.0'
-    roomVersion = '1.0.0'
+    roomVersion = '2.2.3'
     timberVersion = '4.5.1'
     glideVersion = '4.0.0'
     daggerVersion = '2.20'
@@ -124,9 +124,9 @@ ext {
             javaxAnnotation:    "javax.annotation:javax.annotation-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
-            roomRuntime: 'androidx.room:room-runtime:2.0.0',
-            roomCompiler: 'androidx.room:room-compiler:2.0.0',
-            roomRxJava:         "android.arch.persistence.room:rxjava2:${roomVersion}"
+            roomRuntime:        "androidx.room:room-runtime:${roomVersion}",
+            roomCompiler:       "androidx.room:room-compiler:${roomVersion}",
+            roomRxJava:         "androidx.room:room-rxjava2:${roomVersion}"
     ]
 
     cacheTestDependencies = [
@@ -135,8 +135,8 @@ ext {
             assertj:            "org.assertj:assertj-core:${assertJVersion}",
             mockito:            "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
             robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
-            roomTesting: 'androidx.room:room-testing:2.0.0',
-            archTesting: 'androidx.arch.core:core-testing:2.0.0',
+            roomTesting:        "androidx.room:room-testing:${roomVersion}",
+            archTesting:        "androidx.arch.core:core-testing:2.1.0",
             supportRunner:      "com.android.support.test:runner:${androidSupportRunnerVersion}",
             supportRules:       "com.android.support.test:rules:${androidSupportRulesVersion}"
     ]
@@ -190,7 +190,7 @@ ext {
             glassfishAnnotation: "org.glassfish:javax.annotation:${glassfishAnnotationVersion}",
             roomRuntime:        "android.arch.persistence.room:runtime:${roomVersion}",
             roomCompiler:       "android.arch.persistence.room:compiler:${roomVersion}",
-            roomRxJava:         "android.arch.persistence.room:rxjava2:${roomVersion}",
+            roomRxJava:         "androidx.room:room-rxjava2:${roomVersion}",
             mockito:            "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
             constraintLayout:   "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}",
             constraintLayoutResolver:   "androidx.constraintlayout:constraintlayout-solver:${constraintLayoutVersion}"
