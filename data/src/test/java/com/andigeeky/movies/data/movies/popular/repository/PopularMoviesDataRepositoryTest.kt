@@ -1,5 +1,6 @@
 package com.andigeeky.movies.data.movies.popular.repository
 
+import com.andigeeky.movies.data.movies.MoviesFactory
 import com.andigeeky.movies.data.movies.popular.source.PopularMoviesCache
 import com.andigeeky.movies.data.movies.popular.source.PopularMoviesDataFactory
 import com.andigeeky.movies.data.movies.popular.source.PopularMoviesRemote
@@ -23,6 +24,7 @@ class PopularMoviesDataRepositoryTest {
     private val pageNumber = 1
     private val moviesNumber = 2
     private val movies = MoviesFactory.getMovies(moviesNumber)
+    private val movieEntities = MoviesFactory.getMoviesEntity(moviesNumber)
 
     @Before
     fun setUp(){
@@ -44,9 +46,9 @@ class PopularMoviesDataRepositoryTest {
             .thenReturn(Completable.complete())
 
         whenever(popularMoviesDataFactory.retrieveCacheDataStore().getMovies(pageNumber))
-            .thenReturn(Flowable.just(MoviesFactory.getMoviesEntity(moviesNumber)))
+            .thenReturn(Flowable.just(movieEntities))
         whenever(popularMoviesDataFactory.retrieveRemoteDataStore().getMovies(pageNumber))
-            .thenReturn(Flowable.just(MoviesFactory.getMoviesRemote(moviesNumber)))
+            .thenReturn(Flowable.just(movieEntities))
 
     }
 

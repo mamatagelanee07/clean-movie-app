@@ -18,7 +18,7 @@ class PopularMoviesDataRepository @Inject constructor(
             .retrieveRemoteDataStore()
             .getMovies(params)
             .flatMap {
-                Flowable.just(it.map { movie -> movie.mapEntity() })
+                Flowable.just(it.map { movie -> movie.map() })
             }.flatMap {
                 saveMovies(it).toSingle { it }.toFlowable()
             }
