@@ -13,10 +13,10 @@ import com.andigeeky.movies.domain.movies.popular.model.Movie
 class PopularMoviesAdapter(
     private val dataBindingComponent: DataBindingComponent,
     appExecutors: JobExecutor,
-    private val callback: ((Movie) -> Unit)?
-) : DataBoundListAdapter<Movie, ItemMovieBinding>(
+    private val callback: ((Movie?) -> Unit)?
+) : DataBoundListAdapter<Movie?, ItemMovieBinding>(
     appExecutors = appExecutors,
-    diffCallback = object : DiffUtil.ItemCallback<Movie>() {
+    diffCallback = object : DiffUtil.ItemCallback<Movie?>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem.id == newItem.id
         }
@@ -44,7 +44,7 @@ class PopularMoviesAdapter(
         return binding
     }
 
-    override fun bind(binding: ItemMovieBinding, item: Movie) {
+    override fun bind(binding: ItemMovieBinding, item: Movie?) {
         binding.movie = item
     }
 }

@@ -43,7 +43,7 @@ class PopularMoviesFragment : Fragment(), Injectable ,
     private var binding by autoCleared<FragmentPopularMovieBinding>()
 
     private val compositeDisposable = CompositeDisposable()
-    private val movies = mutableSetOf<Movie>()
+    private var movies = mutableSetOf<Movie?>()
     private var popularMoviesViewState : PopularMoviesViewState = PopularMoviesViewState.IDLE
 
     private val nextPageIntent =
@@ -118,7 +118,11 @@ class PopularMoviesFragment : Fragment(), Injectable ,
             }
             state is PopularMoviesViewState.SUCCESS -> {
                 makeToast("Success")
-                state.popularMovies?.let { movies.addAll(it.filterNotNull().toList()) }
+                state.popularMovies?.let {
+                    movies = movies.filterNotNull().toMutableSet()
+                    movies.addAll(it.filterNotNull().toList())
+                    movies.add(null)
+                }
                 adapter.submitList(movies.toList())
             }
         }
