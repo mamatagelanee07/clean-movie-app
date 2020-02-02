@@ -34,17 +34,19 @@ data class RemoteMovie(
     val voteCount: Int?
 )
 
+const val PATH_IMAGE = "https://image.tmdb.org/t/p/w500/"
+
 fun RemoteMovie.mapEntity() : MovieEntity {
     return MovieEntity(
         adult = this.adult,
-        backdropPath = this.backdropPath,
+        backdropPath = PATH_IMAGE+this.backdropPath,
         genreIds = this.genreIds,
         id = this.id,
         originalLanguage = this.originalLanguage,
         originalTitle = this.originalTitle,
         overview = this.overview,
         popularity = this.popularity,
-        posterPath = this.posterPath,
+        posterPath = PATH_IMAGE+this.posterPath,
         releaseDate = this.releaseDate,
         title = this.title,
         video = this.video,
