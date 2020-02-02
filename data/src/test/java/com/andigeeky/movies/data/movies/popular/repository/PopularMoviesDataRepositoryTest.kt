@@ -55,7 +55,7 @@ class PopularMoviesDataRepositoryTest {
     @Test
     fun testGetMoviesReturnsMovies(){
         val testObserver = popularMoviesDataRepository.getMovies(pageNumber).test()
-        testObserver.assertValues(movies, movies)
+        testObserver.assertValues(movies)
     }
 
     @Test

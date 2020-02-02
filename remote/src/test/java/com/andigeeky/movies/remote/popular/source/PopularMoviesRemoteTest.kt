@@ -19,6 +19,7 @@ class PopularMoviesRemoteTest {
 
     private lateinit var mockWebServer : MockWebServer
     private lateinit var service : MoviesService
+    private val pageNumber = 1
 
     @Before
     fun setup(){
@@ -34,15 +35,15 @@ class PopularMoviesRemoteTest {
     @Test
     fun testGetData(){
         enqueueResponse("popular_movies.json")
-        val testSubscriber = service.getPopularMovies().test()
-        testSubscriber.assertValue { it.results.size == 20 }
+        val testSubscriber = service.getPopularMovies(pageNumber)?.test()
+        testSubscriber?.assertValue { it.results?.size == 20 }
     }
 
     @Test
     fun testGetDataCompletes(){
         enqueueResponse("popular_movies.json")
-        val testSubscriber = service.getPopularMovies().test()
-        testSubscriber.assertComplete()
+        val testSubscriber = service.getPopularMovies(pageNumber)?.test()
+        testSubscriber?.assertComplete()
     }
 
     @After
