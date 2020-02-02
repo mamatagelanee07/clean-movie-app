@@ -6,9 +6,9 @@ import com.andigeeky.movies.presentation.common.BaseResult
 sealed class PopularMoviesResult : BaseResult
 
 class LoadPopularMoviesTask(val status : TaskStatus,
-                            val popularMovies: List<Movie> = emptyList()) : PopularMoviesResult(){
+                            val popularMovies: List<Movie?>? = emptyList()) : PopularMoviesResult(){
     companion object{
-        internal fun success(popularMovies: List<Movie>): LoadPopularMoviesTask {
+        internal fun success(popularMovies: List<Movie?>?): LoadPopularMoviesTask {
             return LoadPopularMoviesTask(SUCCESS, popularMovies)
         }
 

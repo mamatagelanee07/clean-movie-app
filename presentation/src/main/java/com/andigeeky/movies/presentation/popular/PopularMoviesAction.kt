@@ -3,5 +3,6 @@ package com.andigeeky.movies.presentation.popular
 import com.andigeeky.movies.presentation.common.BaseAction
 
 sealed class PopularMoviesAction : BaseAction {
-    object LoadPopularMoviesAction : PopularMoviesAction()
+    open class LoadPopularMoviesAction(val pageNumber :Int) : PopularMoviesAction()
+    class LoadNextPagePopularMoviesAction(pageNumber: Int) : LoadPopularMoviesAction(pageNumber)
 }

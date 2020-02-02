@@ -10,21 +10,21 @@ import com.andigeeky.movies.data.movies.popular.model.MovieEntity
 @Entity(tableName = MovieDBQueries.TABLE_POPULAR_MOVIES)
 @TypeConverters(IntListTypeConverter::class)
 data class CachedMovie(
-    val adult: Boolean,
-    val backdropPath: String,
-    val genreIds: List<Int>,
+    val adult: Boolean?,
+    val backdropPath: String?,
+    val genreIds: List<Int>?,
     @PrimaryKey
     val id: Int,
-    val originalLanguage: String,
-    val originalTitle: String,
-    val overview: String,
-    val popularity: Double,
-    val posterPath: String,
-    val releaseDate: String,
-    val title: String,
-    val video: Boolean,
-    val voteAverage: Double,
-    val voteCount: Int
+    val originalLanguage: String?,
+    val originalTitle: String?,
+    val overview: String?,
+    val popularity: Double?,
+    val posterPath: String?,
+    val releaseDate: String?,
+    val title: String?,
+    val video: Boolean?,
+    val voteAverage: Double?,
+    val voteCount: Int?
 )
 
 fun MovieEntity.map() : CachedMovie{

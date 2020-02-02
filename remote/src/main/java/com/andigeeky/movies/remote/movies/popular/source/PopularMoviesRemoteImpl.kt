@@ -11,9 +11,9 @@ class PopularMoviesRemoteImpl @Inject constructor(
     private val service: MoviesService
 ) : PopularMoviesRemote{
 
-    override fun getMovies(pageNumber: Int?): Flowable<List<MovieEntity>> {
-        return service.getPopularMovies().map {
-            it.results.map { movie -> movie.mapEntity() }
-        }
+    override fun getMovies(pageNumber: Int?): Flowable<List<MovieEntity?>?> {
+        return service.getPopularMovies(pageNumber)?.map {
+            it.results?.map { movie -> movie?.mapEntity() }
+        } ?: Flowable.just(emptyList())
     }
 }

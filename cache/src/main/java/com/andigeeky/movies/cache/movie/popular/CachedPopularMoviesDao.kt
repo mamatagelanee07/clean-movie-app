@@ -19,6 +19,6 @@ interface CachedPopularMoviesDao {
     fun clearPopularMovies() : Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPopularMovies(movies: List<CachedMovie>): Completable
+    fun insertPopularMovies(movies: List<CachedMovie?>?): Completable
 
 }

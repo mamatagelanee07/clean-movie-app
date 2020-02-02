@@ -14,7 +14,7 @@ interface PopularMoviesRepository {
      * Returns list of popular movies
      * @param  params page number
      */
-    fun getMovies(params: Int?): Flowable<List<Movie>>
+    fun getMovies(params: Int?): Flowable<List<Movie?>?>
 
     /**
      * Clears all saved popular movies
@@ -24,5 +24,5 @@ interface PopularMoviesRepository {
     /**
      * Saves given list of movies
      */
-    fun saveMovies(movies: List<Movie>) : Completable
+    fun saveMovies(movies: List<Movie?>?) : Completable
 }

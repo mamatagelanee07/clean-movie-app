@@ -13,12 +13,12 @@ class PopularMoviesDataRepository @Inject constructor(
     private val popularMoviesDataFactory: PopularMoviesDataFactory
 ) : PopularMoviesRepository {
 
-    override fun getMovies(params: Int?): Flowable<List<Movie>> {
+    override fun getMovies(params: Int?): Flowable<List<Movie?>?> {
         val apiCall = popularMoviesDataFactory
             .retrieveRemoteDataStore()
             .getMovies(params)
             .flatMap {
-                Flowable.just(it.map { movie -> movie.map() })
+                Flowable.just(it.map { movie -> movie?.map() })
             }.flatMap {
                 saveMovies(it).toSingle { it }.toFlowable()
             }
@@ -28,7 +28,7 @@ class PopularMoviesDataRepository @Inject constructor(
             .getMovies(params)
             .flatMap { Flowable.just(it.map { movie -> movie.map() }) }
 
-        return Flowable.merge(apiCall, dbCall)
+        return apiCall //Flowable.merge(apiCall, dbCall)
     }
 
     override fun clearMovies(): Completable {
@@ -36,8 +36,8 @@ class PopularMoviesDataRepository @Inject constructor(
             .clearMovies()
     }
 
-    override fun saveMovies(movies: List<Movie>): Completable {
+    override fun saveMovies(movies: List<Movie?>?): Completable {
         return popularMoviesDataFactory.retrieveCacheDataStore()
-            .saveMovies(movies.map { it.mapEntity() })
+            .saveMovies(movies?.map { it?.mapEntity() })
     }
 }

@@ -1,7 +1,6 @@
 package com.andigeeky.cleanmovieapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.andigeeky.cleanmovieapp.databinding.FragmentPopularMovieBinding
 import com.andigeeky.cleanmovieapp.di.Injectable
 import com.andigeeky.cleanmovieapp.ui.common.FragmentDataBindingComponent
 import com.andigeeky.cleanmovieapp.ui.common.autoCleared
 import com.andigeeky.movies.data.executor.JobExecutor
+import com.andigeeky.movies.domain.movies.popular.model.Movie
 import com.andigeeky.movies.presentation.common.BaseView
 import com.andigeeky.movies.presentation.popular.PopularMoviesIntent
 import com.andigeeky.movies.presentation.popular.PopularMoviesViewModel
@@ -41,10 +43,13 @@ class PopularMoviesFragment : Fragment(), Injectable ,
     private var binding by autoCleared<FragmentPopularMovieBinding>()
 
     private val compositeDisposable = CompositeDisposable()
-    private val refreshIntent =
-        BehaviorSubject.create<PopularMoviesIntent.RefreshPopularMoviesIntent>()
+    private val movies = mutableSetOf<Movie>()
+    private var popularMoviesViewState : PopularMoviesViewState = PopularMoviesViewState.IDLE
+
+    private val nextPageIntent =
+        BehaviorSubject.create<PopularMoviesIntent.LoadNextPopularMoviesIntent>()
     private val initialIntent = Observable
-        .just(PopularMoviesIntent.LoadPopularMoviesIntent)
+        .just(PopularMoviesIntent.LoadPopularMoviesIntent())
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -77,22 +82,33 @@ class PopularMoviesFragment : Fragment(), Injectable ,
             Timber.e("Clicked $it")
         }
         binding.listLines.adapter = adapter
+        binding.listLines.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val lastPosition = layoutManager.findLastVisibleItemPosition()
+                if (lastPosition == adapter.itemCount - 1 && !popularMoviesViewState.loading) {
+                    val pageNumber = ((adapter.itemCount)/20) + 1
+                    nextPageIntent.onNext(PopularMoviesIntent.LoadNextPopularMoviesIntent((pageNumber)))
+                }
+            }
+        })
 
         compositeDisposable.add(viewModel.states().subscribe { render(it) })
         viewModel.processIntents(intents())
     }
 
     override fun onDestroy() {
-        compositeDisposable.dispose()
+        compositeDisposable.clear()
         super.onDestroy()
     }
 
     override fun intents(): Observable<PopularMoviesIntent> {
         return Observable.merge(initialIntent,
-            refreshIntent)
+            nextPageIntent)
     }
 
     override fun render(state: PopularMoviesViewState) {
+        popularMoviesViewState = state
         when {
             state.loading -> {
                 makeToast("loading")
@@ -102,9 +118,8 @@ class PopularMoviesFragment : Fragment(), Injectable ,
             }
             state is PopularMoviesViewState.SUCCESS -> {
                 makeToast("Success")
-                Log.e("Popular Movies : " , state.popularMovies.toString())
-                val lines = state.popularMovies
-                adapter.submitList(lines)
+                state.popularMovies?.let { movies.addAll(it.filterNotNull().toList()) }
+                adapter.submitList(movies.toList())
             }
         }
     }

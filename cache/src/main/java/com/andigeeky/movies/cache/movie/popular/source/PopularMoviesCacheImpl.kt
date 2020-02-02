@@ -19,9 +19,9 @@ class PopularMoviesCacheImpl @Inject constructor(private val database: MoviesDat
         return database.cachedPopularMoviesDao().clearPopularMovies()
     }
 
-    override fun saveMovies(movies: List<MovieEntity>): Completable {
+    override fun saveMovies(movies: List<MovieEntity?>?): Completable {
         return database.cachedPopularMoviesDao()
-            .insertPopularMovies(movies.map { it.map() })
+            .insertPopularMovies(movies?.map { it?.map() })
     }
 
 }

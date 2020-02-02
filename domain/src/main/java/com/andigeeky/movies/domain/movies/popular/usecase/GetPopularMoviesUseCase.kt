@@ -15,9 +15,9 @@ open class GetPopularMoviesUseCase @Inject constructor(
     private val popularMoviesRepository: PopularMoviesRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : FlowableUseCase<List<Movie>, Int>(threadExecutor, postExecutionThread) {
+) : FlowableUseCase<List<Movie?>?, Int>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: Int?): Flowable<List<Movie>> {
+    public override fun buildUseCaseObservable(params: Int?): Flowable<List<Movie?>?> {
         return popularMoviesRepository.getMovies(params)
     }
 }

@@ -19,5 +19,5 @@ interface PopularMoviesCache {
     /**
      * Saves given list of movies
      */
-    fun saveMovies(movies: List<MovieEntity>) : Completable
+    fun saveMovies(movies: List<MovieEntity?>?) : Completable
 }

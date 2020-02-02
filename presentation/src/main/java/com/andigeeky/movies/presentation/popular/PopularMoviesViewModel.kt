@@ -9,7 +9,7 @@ import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class PopularMoviesViewModel @Inject internal constructor(
-    private val agenciesProcessor: PopularMoviesProcessor
+    private val popularMoviesProcessor: PopularMoviesProcessor
 ) : ViewModel(), BaseViewModel<PopularMoviesIntent, PopularMoviesViewState> {
 
     private val intentsSubject: PublishSubject<PopularMoviesIntent> = PublishSubject.create()
@@ -52,7 +52,7 @@ class PopularMoviesViewModel @Inject internal constructor(
         return intentsSubject
             .compose(getIntentFilter())
             .map { this.actionFromIntent(it) }
-            .compose(agenciesProcessor.processor)
+            .compose(popularMoviesProcessor.processor)
             .scan(PopularMoviesViewState.IDLE, getReducer())
             .replay(1)
             .autoConnect(0)
@@ -60,8 +60,8 @@ class PopularMoviesViewModel @Inject internal constructor(
 
     private fun actionFromIntent(intent: PopularMoviesIntent): PopularMoviesAction {
         return when (intent) {
-            is PopularMoviesIntent.LoadPopularMoviesIntent -> PopularMoviesAction.LoadPopularMoviesAction
-            PopularMoviesIntent.RefreshPopularMoviesIntent -> PopularMoviesAction.LoadPopularMoviesAction
+            is PopularMoviesIntent.LoadPopularMoviesIntent -> PopularMoviesAction.LoadPopularMoviesAction(intent.pageNumber)
+            is PopularMoviesIntent.LoadNextPopularMoviesIntent -> PopularMoviesAction.LoadNextPagePopularMoviesAction(intent.pageNumber)
         }
     }
 }

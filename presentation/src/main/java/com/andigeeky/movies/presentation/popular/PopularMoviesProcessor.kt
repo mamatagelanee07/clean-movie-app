@@ -11,8 +11,8 @@ class PopularMoviesProcessor @Inject constructor(
     private val conversationsProcessor: ObservableTransformer
     <PopularMoviesAction.LoadPopularMoviesAction, PopularMoviesResult> =
         ObservableTransformer {
-            it.switchMap {
-                popularMoviesUseCase.execute()
+            it.switchMap {action ->
+                popularMoviesUseCase.execute(action.pageNumber)
                     .map { agencies ->
                         LoadPopularMoviesTask.success(agencies)
                     }
