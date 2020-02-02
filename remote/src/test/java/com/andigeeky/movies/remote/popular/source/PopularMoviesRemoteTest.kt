@@ -34,14 +34,14 @@ class PopularMoviesRemoteTest {
     @Test
     fun testGetData(){
         enqueueResponse("popular_movies.json")
-        val testSubscriber = service.getAgencies().test()
+        val testSubscriber = service.getPopularMovies().test()
         testSubscriber.assertValue { it.results.size == 20 }
     }
 
     @Test
     fun testGetDataCompletes(){
         enqueueResponse("popular_movies.json")
-        val testSubscriber = service.getAgencies().test()
+        val testSubscriber = service.getPopularMovies().test()
         testSubscriber.assertComplete()
     }
 

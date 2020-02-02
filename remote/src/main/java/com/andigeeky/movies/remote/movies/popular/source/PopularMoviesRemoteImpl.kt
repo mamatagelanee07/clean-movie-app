@@ -12,7 +12,7 @@ class PopularMoviesRemoteImpl @Inject constructor(
 ) : PopularMoviesRemote{
 
     override fun getMovies(pageNumber: Int?): Flowable<List<MovieEntity>> {
-        return service.getAgencies().map {
+        return service.getPopularMovies().map {
             it.results.map { movie -> movie.mapEntity() }
         }
     }

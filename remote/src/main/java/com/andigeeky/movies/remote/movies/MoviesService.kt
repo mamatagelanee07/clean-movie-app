@@ -9,6 +9,6 @@ import retrofit2.http.GET
  */
 interface MoviesService {
 
-    @GET("agency")
-    fun getAgencies(): Flowable<PopularMovieResponse>
+    @GET("popular?api_key=fd1a1f8dfea7db3b2efc83939f21ec33")
+    fun getPopularMovies(): Flowable<PopularMovieResponse>
 }

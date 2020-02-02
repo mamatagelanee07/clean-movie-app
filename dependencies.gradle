@@ -26,8 +26,10 @@ ext {
     retrofitVersion = '2.7.1'
     roomVersion = '2.2.3'
     timberVersion = '4.5.1'
-    glideVersion = '4.0.0'
-    daggerVersion = '2.20'
+    glideVersion = '4.8.0'
+    daggerVersion = '2.26'
+    navigation = '2.1.0'
+    support = '1.0.0'
     glassfishAnnotationVersion = '10.0-b28'
     constraintLayoutVersion = '1.1.2'
 
@@ -86,7 +88,8 @@ ext {
             kotlinJUnit:        "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
             assertj:            "org.assertj:assertj-core:${assertJVersion}",
             mockito:            "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
-            robolectric:        "org.robolectric:robolectric:${robolectricVersion}"
+            robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
+            archTesting:        "androidx.arch.core:core-testing:2.1.0",
     ]
 
     dataDependencies = [
@@ -183,19 +186,21 @@ ext {
             javaxAnnotation:    "javax.annotation:javax.annotation-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
             androidAnnotations: 'androidx.annotation:annotation:1.0.0',
-            androidSupportV4: 'androidx.legacy:legacy-support-v4:1.0.0',
-            androidSupportV13: 'androidx.legacy:legacy-support-v13:1.0.0',
-            appCompatV7: 'androidx.appcompat:appcompat:1.0.0',
-            supportRecyclerView: 'androidx.recyclerview:recyclerview:1.0.0',
-            supportDesign: 'com.google.android.material:material:1.0.0',
+            androidSupportV4:   'androidx.legacy:legacy-support-v4:1.0.0',
+            androidSupportV13:  'androidx.legacy:legacy-support-v13:1.0.0',
+            appCompatV7:        'androidx.appcompat:appcompat:1.0.0',
+            recyclerView:       'androidx.recyclerview:recyclerview:1.0.0-rc01',
+            supportDesign:      'com.google.android.material:material:1.0.0',
             timber:             "com.jakewharton.timber:timber:${timberVersion}",
             daggerSupport:      "com.google.dagger:dagger-android-support:${daggerVersion}",
             daggerProcessor:    "com.google.dagger:dagger-android-processor:${daggerVersion}",
             glassfishAnnotation: "org.glassfish:javax.annotation:${glassfishAnnotationVersion}",
-            roomRuntime:        "android.arch.persistence.room:runtime:${roomVersion}",
-            roomCompiler:       "android.arch.persistence.room:compiler:${roomVersion}",
+            roomRuntime:        "androidx.room:room-runtime:${roomVersion}",
+            roomCompiler:       "androidx.room:room-compiler:${roomVersion}",
             roomRxJava:         "androidx.room:room-rxjava2:${roomVersion}",
             mockito:            "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            navigation:         "androidx.navigation:navigation-fragment-ktx:${navigation}",
+            cardView:           "androidx.cardview:cardview:${support}",
             constraintLayout:   "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}",
             constraintLayoutResolver:   "androidx.constraintlayout:constraintlayout-solver:${constraintLayoutVersion}"
     ]
@@ -212,7 +217,8 @@ ext {
             espressoIntents: 'androidx.test.espresso:espresso-intents:3.1.0',
             espressoContrib: 'androidx.test.espresso:espresso-contrib:3.1.0',
             androidRunner: 'androidx.test:runner:1.1.0',
-            androidRules: 'androidx.test:rules:1.1.0'
+            androidRules: 'androidx.test:rules:1.1.0',
+            roomRuntime:        "androidx.room:room-runtime:${roomVersion}",
     ]
 
 }

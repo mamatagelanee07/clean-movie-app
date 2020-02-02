@@ -23,13 +23,17 @@ abstract class MoviesDatabase @Inject constructor() : RoomDatabase() {
             synchronized(sLock) {
                 if (database == null) {
                     database = Room.databaseBuilder(context.applicationContext,
-                            MoviesDatabase::class.java, "movies.db")
+                            MoviesDatabase::class.java,NAME)
                             .build()
                 }
                 return database!!
             }
         }
         return database!!
+    }
+
+    companion object{
+        const val NAME = "movies.db"
     }
 
 }

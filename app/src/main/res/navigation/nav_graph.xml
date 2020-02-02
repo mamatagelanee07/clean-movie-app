@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/popular_movies">
+
+    <fragment
+        android:id="@+id/popular_movies"
+        android:name="com.andigeeky.cleanmovieapp.PopularMoviesFragment"
+        tools:layout = "@layout/fragment_popular_movie"
+        android:label="Home" />
+</navigation>

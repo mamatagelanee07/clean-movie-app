@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="resource"
+            type="com.andigeeky.movies.presentation.popular.PopularMoviesViewState" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:visibility="@{resource.loading?View.VISIBLE:View.GONE}"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:visibility="@{resource.loading?View.VISIBLE:View.GONE}"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            android:layout_margin="8dp" />
+    </LinearLayout>
+</layout>
+
