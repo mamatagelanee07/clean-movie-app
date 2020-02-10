@@ -87,7 +87,7 @@ class PopularMoviesFragment : Fragment(), Injectable ,
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 val lastPosition = layoutManager.findLastVisibleItemPosition()
                 if (lastPosition == adapter.itemCount - 1 && !popularMoviesViewState.loading) {
-                    val pageNumber = ((adapter.itemCount)/20) + 1
+                    val pageNumber = popularMoviesViewState.result?.page?.plus(1) ?: 1
                     nextPageIntent.onNext(PopularMoviesIntent.LoadNextPopularMoviesIntent((pageNumber)))
                 }
             }
@@ -109,18 +109,16 @@ class PopularMoviesFragment : Fragment(), Injectable ,
 
     override fun render(state: PopularMoviesViewState) {
         popularMoviesViewState = state
-        when {
-            state.loading -> {
-                makeToast("loading")
+        when (state) {
+            is PopularMoviesViewState.ERROR -> {
+                makeToast("error while loading movie")
             }
-            state is PopularMoviesViewState.ERROR -> {
-                makeToast("error")
-            }
-            state is PopularMoviesViewState.SUCCESS -> {
-                makeToast("Success")
+            is PopularMoviesViewState.SUCCESS -> {
                 state.popularMovies?.let {
                     movies = movies.filterNotNull().toMutableSet()
-                    movies.addAll(it.filterNotNull().toList())
+                    it.results?.let {movieList ->
+                        movies.addAll(movieList.filterNotNull().toList())
+                    }
                     movies.add(null)
                 }
                 adapter.submitList(movies.toList())

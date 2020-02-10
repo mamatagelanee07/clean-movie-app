@@ -2,8 +2,18 @@ package com.andigeeky.movies.cache.movie
 
 import com.andigeeky.movies.cache.movie.popular.model.CachedMovie
 import com.andigeeky.movies.data.movies.popular.model.MovieEntity
+import com.andigeeky.movies.data.movies.popular.model.PopularMoviesEntity
 
 internal object MoviesFactory {
+    fun getPopularMoviesEntity(pageNumber : Int, size : Int) : PopularMoviesEntity{
+        return PopularMoviesEntity(
+            page = pageNumber,
+            totalPages = pageNumber * 5,
+            totalResults = pageNumber * 10,
+            results = getMoviesEntity(size)
+        )
+    }
+
     fun getMoviesCache(count: Int) : List<CachedMovie>{
         val movies = mutableListOf<CachedMovie>()
         repeat(count) { index ->

@@ -22,6 +22,8 @@ class GetPopularMoviesTest {
     private val pageNumber = 1
     private val movieCount = 2
 
+    private val movies = MoviesFactory.getPopularMovies(pageNumber, movieCount)
+
     @Before
     fun setUp() {
         mockThreadExecutor = mock()
@@ -39,20 +41,19 @@ class GetPopularMoviesTest {
 
     @Test
     fun buildUseCaseObservableCompletes() {
-        stubPopularMoviesRepositoryGetPopularMovies(MoviesFactory.getMovies(movieCount))
+        stubPopularMoviesRepositoryGetPopularMovies()
         val testObserver = popularMoviesUseCase.buildUseCaseObservable(pageNumber).test()
         testObserver.assertComplete()
     }
 
     @Test
     fun buildUseCaseObservableReturnsData() {
-        val agencies = MoviesFactory.getMovies(movieCount)
-        stubPopularMoviesRepositoryGetPopularMovies(agencies)
+        stubPopularMoviesRepositoryGetPopularMovies()
         val testObserver = popularMoviesUseCase.buildUseCaseObservable(pageNumber).test()
-        testObserver.assertValue(agencies)
+        testObserver.assertValue(movies)
     }
 
-    private fun stubPopularMoviesRepositoryGetPopularMovies(movies: List<Movie>) {
+    private fun stubPopularMoviesRepositoryGetPopularMovies() {
         whenever(repository.getMovies(1))
             .thenReturn(Flowable.just(movies))
     }

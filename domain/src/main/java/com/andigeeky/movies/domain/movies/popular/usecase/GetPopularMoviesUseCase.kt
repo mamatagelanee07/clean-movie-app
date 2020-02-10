@@ -4,6 +4,7 @@ import com.andigeeky.movies.domain.executor.PostExecutionThread
 import com.andigeeky.movies.domain.executor.ThreadExecutor
 import com.andigeeky.movies.domain.interactor.FlowableUseCase
 import com.andigeeky.movies.domain.movies.popular.model.Movie
+import com.andigeeky.movies.domain.movies.popular.model.PopularMovies
 import com.andigeeky.movies.domain.movies.popular.repository.PopularMoviesRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
@@ -15,9 +16,9 @@ open class GetPopularMoviesUseCase @Inject constructor(
     private val popularMoviesRepository: PopularMoviesRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : FlowableUseCase<List<Movie?>?, Int>(threadExecutor, postExecutionThread) {
+) : FlowableUseCase<PopularMovies?, Int>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: Int?): Flowable<List<Movie?>?> {
+    public override fun buildUseCaseObservable(params: Int?): Flowable<PopularMovies?> {
         return popularMoviesRepository.getMovies(params)
     }
 }

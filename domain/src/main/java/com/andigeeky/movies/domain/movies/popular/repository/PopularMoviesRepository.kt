@@ -1,6 +1,6 @@
 package com.andigeeky.movies.domain.movies.popular.repository
 
-import com.andigeeky.movies.domain.movies.popular.model.Movie
+import com.andigeeky.movies.domain.movies.popular.model.PopularMovies
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -12,9 +12,9 @@ interface PopularMoviesRepository {
 
     /**
      * Returns list of popular movies
-     * @param  params page number
+     * @param  pageNumber page number
      */
-    fun getMovies(params: Int?): Flowable<List<Movie?>?>
+    fun getMovies(pageNumber: Int?): Flowable<PopularMovies?>
 
     /**
      * Clears all saved popular movies
@@ -24,5 +24,5 @@ interface PopularMoviesRepository {
     /**
      * Saves given list of movies
      */
-    fun saveMovies(movies: List<Movie?>?) : Completable
+    fun saveMovies(movies: PopularMovies?) : Completable
 }

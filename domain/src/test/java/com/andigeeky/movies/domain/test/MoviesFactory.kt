@@ -1,9 +1,19 @@
 package com.andigeeky.movies.domain.test
 
 import com.andigeeky.movies.domain.movies.popular.model.Movie
+import com.andigeeky.movies.domain.movies.popular.model.PopularMovies
 
 internal object MoviesFactory {
-    fun getMovies(count: Int) : List<Movie>{
+    fun getPopularMovies(page: Int, size: Int) : PopularMovies{
+        return PopularMovies(
+            page = page,
+            totalPages = page * 5,
+            totalResults = page * 10,
+            results = getMovies(size)
+        )
+    }
+
+    private fun getMovies(count: Int) : List<Movie>{
         val movies = mutableListOf<Movie>()
         repeat(count) { index ->
             movies.add(

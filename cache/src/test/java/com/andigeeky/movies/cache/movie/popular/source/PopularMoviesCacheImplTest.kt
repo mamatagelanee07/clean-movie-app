@@ -1,10 +1,11 @@
 package com.andigeeky.movies.cache.movie.popular.source
 
-import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import com.andigeeky.movies.cache.movie.MoviesFactory
 import com.andigeeky.movies.cache.movie.db.MoviesDatabase
+import com.andigeeky.movies.cache.movie.popular.model.CachedMoviePages
+import com.andigeeky.movies.data.movies.popular.source.PopularMoviesCache
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -15,23 +16,21 @@ import org.robolectric.annotation.Config
 
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.O])
+@Config(manifest=Config.NONE)
 class PopularMoviesCacheImplTest {
 
-    private lateinit var cacheImpl: PopularMoviesCacheImpl
+    private lateinit var cacheImpl: PopularMoviesCache
     private lateinit var database: MoviesDatabase
 
     private val pageNumbers = 2
     private val movieNumbers = 2
-    private val movieEntities = MoviesFactory.getMoviesEntity(movieNumbers)
-    private val movieCache = MoviesFactory.getMoviesCache(movieNumbers)
+    private val movieEntities = MoviesFactory.getPopularMoviesEntity(pageNumbers, movieNumbers)
 
     @JvmField @Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setup() {
-
         database = Room.inMemoryDatabaseBuilder(
             RuntimeEnvironment.application,
             MoviesDatabase::class.java

@@ -1,7 +1,14 @@
 package com.andigeeky.movies.data.movies.popular.model
 
 import com.andigeeky.movies.domain.movies.popular.model.Movie
+import com.andigeeky.movies.domain.movies.popular.model.PopularMovies
 
+data class PopularMoviesEntity(
+    val page: Int,
+    val results: List<MovieEntity?>?,
+    val totalPages: Int?,
+    val totalResults: Int?
+)
 
 data class MovieEntity(
     val adult: Boolean?,
@@ -20,7 +27,26 @@ data class MovieEntity(
     val voteCount: Int?
 )
 
-fun Movie.mapEntity() : MovieEntity{
+fun PopularMovies.mapEntity() : PopularMoviesEntity{
+    return PopularMoviesEntity(
+        page = this.page,
+        results = this.results?.map { it?.mapEntity() },
+        totalPages = this.totalPages,
+        totalResults = this.totalResults
+    )
+}
+
+fun PopularMoviesEntity.mapEntity() : PopularMovies{
+    return PopularMovies(
+        page = this.page,
+        results = this.results?.map { it?.map() },
+        totalPages = this.totalPages,
+        totalResults = this.totalResults
+    )
+}
+
+
+internal fun Movie.mapEntity() : MovieEntity{
     return MovieEntity(
         adult = this.adult,
         backdropPath = this.backdropPath,
@@ -39,7 +65,7 @@ fun Movie.mapEntity() : MovieEntity{
     )
 }
 
-fun MovieEntity.map() : Movie{
+internal fun MovieEntity.map() : Movie{
     return Movie(
         adult = this.adult,
         backdropPath = this.backdropPath,

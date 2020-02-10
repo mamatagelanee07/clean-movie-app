@@ -1,9 +1,8 @@
 package com.andigeeky.movies.data.movies.popular.repository
 
-import com.andigeeky.movies.data.movies.popular.model.map
 import com.andigeeky.movies.data.movies.popular.model.mapEntity
 import com.andigeeky.movies.data.movies.popular.source.PopularMoviesDataFactory
-import com.andigeeky.movies.domain.movies.popular.model.Movie
+import com.andigeeky.movies.domain.movies.popular.model.PopularMovies
 import com.andigeeky.movies.domain.movies.popular.repository.PopularMoviesRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -13,22 +12,21 @@ class PopularMoviesDataRepository @Inject constructor(
     private val popularMoviesDataFactory: PopularMoviesDataFactory
 ) : PopularMoviesRepository {
 
-    override fun getMovies(params: Int?): Flowable<List<Movie?>?> {
+    override fun getMovies(pageNumber: Int?): Flowable<PopularMovies?> {
         val apiCall = popularMoviesDataFactory
             .retrieveRemoteDataStore()
-            .getMovies(params)
-            .flatMap {
-                Flowable.just(it.map { movie -> movie?.map() })
-            }.flatMap {
+            .getMovies(pageNumber)
+            ?.map { it.mapEntity() }
+            ?.flatMap {
                 saveMovies(it).toSingle { it }.toFlowable()
             }
 
         val dbCall = popularMoviesDataFactory
             .retrieveCacheDataStore()
-            .getMovies(params)
-            .flatMap { Flowable.just(it.map { movie -> movie.map() }) }
+            .getMovies(pageNumber)
+            .flatMap { Flowable.just(it.mapEntity()) }
 
-        return apiCall //Flowable.merge(apiCall, dbCall)
+        return Flowable.concat(dbCall, apiCall)
     }
 
     override fun clearMovies(): Completable {
@@ -36,8 +34,8 @@ class PopularMoviesDataRepository @Inject constructor(
             .clearMovies()
     }
 
-    override fun saveMovies(movies: List<Movie?>?): Completable {
+    override fun saveMovies(movies: PopularMovies?): Completable {
         return popularMoviesDataFactory.retrieveCacheDataStore()
-            .saveMovies(movies?.map { it?.mapEntity() })
+            .saveMovies(movies?.mapEntity())
     }
 }

@@ -1,24 +1,47 @@
 package com.andigeeky.movies.cache.movie.popular
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.andigeeky.movies.cache.movie.db.MovieDBQueries
+import androidx.room.*
 import com.andigeeky.movies.cache.movie.popular.model.CachedMovie
+import com.andigeeky.movies.cache.movie.popular.model.CachedMoviePages
+import com.andigeeky.movies.cache.movie.popular.model.CachedPageWithMovies
+import com.andigeeky.movies.cache.movie.popular.model.CachedPopularMovies
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
 @Dao
 interface CachedPopularMoviesDao {
 
-    @Query(MovieDBQueries.QUERY_POPULAR_MOVIES)
-    fun getPopularMovies(): Flowable<List<CachedMovie>>
+    @Transaction
+    @Query("select * from CachedMoviePages where page = :pageNumber")
+    fun getPopularMovies(pageNumber : Int?): Flowable<CachedPopularMovies?>
 
-    @Query(MovieDBQueries.DELETE_POPULAR_MOVIES)
-    fun clearPopularMovies() : Completable
+    @Query("Delete from CachedMoviePages")
+    fun clearPopularMovies(): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPopularMovies(movies: List<CachedMovie?>?): Completable
+    fun insertMovies(movies: List<CachedMovie?>?)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPages(movies: CachedMoviePages?)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPageWithMovies(movies: CachedPageWithMovies?)
+
+    @Transaction
+    fun insertPopularMovies(
+        movies: CachedPopularMovies?
+    ) {
+        insertPages(movies?.page)
+        insertMovies(movies?.results)
+        movies?.results?.forEach {
+            it?.let { movie ->
+                insertPageWithMovies(
+                    CachedPageWithMovies(
+                        pageId = movies.page.page,
+                        movieId = movie.id
+                    )
+                )
+            }
+        }
+    }
 }

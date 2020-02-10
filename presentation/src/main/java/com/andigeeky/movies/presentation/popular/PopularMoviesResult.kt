@@ -1,14 +1,14 @@
 package com.andigeeky.movies.presentation.popular
 
-import com.andigeeky.movies.domain.movies.popular.model.Movie
+import com.andigeeky.movies.domain.movies.popular.model.PopularMovies
 import com.andigeeky.movies.presentation.common.BaseResult
 
 sealed class PopularMoviesResult : BaseResult
 
 class LoadPopularMoviesTask(val status : TaskStatus,
-                            val popularMovies: List<Movie?>? = emptyList()) : PopularMoviesResult(){
+                            val popularMovies: PopularMovies? = null) : PopularMoviesResult(){
     companion object{
-        internal fun success(popularMovies: List<Movie?>?): LoadPopularMoviesTask {
+        internal fun success(popularMovies: PopularMovies?): LoadPopularMoviesTask {
             return LoadPopularMoviesTask(SUCCESS, popularMovies)
         }
 

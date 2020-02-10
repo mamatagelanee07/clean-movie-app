@@ -1,6 +1,6 @@
 package com.andigeeky.movies.data.movies.popular.source
 
-import com.andigeeky.movies.data.movies.popular.model.MovieEntity
+import com.andigeeky.movies.data.movies.popular.model.PopularMoviesEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -9,7 +9,7 @@ interface PopularMoviesCache {
      * Returns list of popular movies
      * @param  params page number
      */
-    fun getMovies(params: Int?): Flowable<List<MovieEntity>>
+    fun getMovies(params: Int?): Flowable<PopularMoviesEntity?>
 
     /**
      * Clears all saved popular movies
@@ -19,5 +19,5 @@ interface PopularMoviesCache {
     /**
      * Saves given list of movies
      */
-    fun saveMovies(movies: List<MovieEntity?>?) : Completable
+    fun saveMovies(movies: PopularMoviesEntity?) : Completable
 }

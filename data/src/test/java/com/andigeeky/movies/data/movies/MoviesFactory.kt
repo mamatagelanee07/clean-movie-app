@@ -1,9 +1,18 @@
 package com.andigeeky.movies.data.movies
 
 import com.andigeeky.movies.data.movies.popular.model.MovieEntity
+import com.andigeeky.movies.data.movies.popular.model.PopularMoviesEntity
 import com.andigeeky.movies.domain.movies.popular.model.Movie
 
 internal object MoviesFactory {
+    fun getPopularMovies(page: Int, size: Int) : PopularMoviesEntity {
+        return PopularMoviesEntity(
+            page = page,
+            totalPages = page * 5,
+            totalResults = page * 10,
+            results = getMoviesEntity(size)
+        )
+    }
     fun getMoviesEntity(count: Int) : List<MovieEntity>{
         val movies = mutableListOf<MovieEntity>()
         repeat(count) { index ->

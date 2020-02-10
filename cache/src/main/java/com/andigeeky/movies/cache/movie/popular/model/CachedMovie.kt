@@ -1,20 +1,52 @@
 package com.andigeeky.movies.cache.movie.popular.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.andigeeky.movies.cache.movie.db.MovieDBQueries
+import androidx.room.*
 import com.andigeeky.movies.cache.movie.db.convertors.IntListTypeConverter
 import com.andigeeky.movies.data.movies.popular.model.MovieEntity
+import com.andigeeky.movies.data.movies.popular.model.PopularMoviesEntity
 
-@Entity(tableName = MovieDBQueries.TABLE_POPULAR_MOVIES)
+data class CachedPopularMovies(
+    @Embedded
+    val page: CachedMoviePages,
+    @Relation(
+        parentColumn = "page",
+        entity = CachedMovie::class,
+        entityColumn = "id",
+        associateBy = Junction(
+            value = CachedPageWithMovies::class,
+            parentColumn = "pageId",
+            entityColumn = "movieId"
+        )
+    )
+    val results: List<CachedMovie?>?
+)
+
+@Entity(
+    primaryKeys = ["pageId", "movieId"]
+)
+data class CachedPageWithMovies(
+    @ColumnInfo(index = true)
+    val pageId: Int,
+    @ColumnInfo(index = true)
+    val movieId: Int
+)
+
+@Entity
+data class CachedMoviePages(
+    @PrimaryKey
+    val page: Int,
+    val totalPages: Int?,
+    val totalResults: Int?
+)
+
+@Entity
 @TypeConverters(IntListTypeConverter::class)
 data class CachedMovie(
+    @PrimaryKey
+    val id: Int,
     val adult: Boolean?,
     val backdropPath: String?,
     val genreIds: List<Int>?,
-    @PrimaryKey
-    val id: Int,
     val originalLanguage: String?,
     val originalTitle: String?,
     val overview: String?,
@@ -27,7 +59,27 @@ data class CachedMovie(
     val voteCount: Int?
 )
 
-fun MovieEntity.map() : CachedMovie{
+fun PopularMoviesEntity.map() : CachedPopularMovies{
+    return CachedPopularMovies(
+        page = CachedMoviePages(
+            page = this.page,
+            totalResults = this.totalResults,
+            totalPages = this.totalPages
+        ),
+        results = this.results?.map { it?.map() }
+    )
+}
+
+fun CachedPopularMovies.map() : PopularMoviesEntity{
+    return PopularMoviesEntity(
+        page = this.page.page,
+        results = this.results?.map { it?.map() },
+        totalPages = this.page.totalPages,
+        totalResults = this.page.totalResults
+    )
+}
+
+internal fun MovieEntity.map() : CachedMovie{
     return CachedMovie(
         adult = this.adult,
         backdropPath = this.backdropPath,
@@ -46,7 +98,7 @@ fun MovieEntity.map() : CachedMovie{
     )
 }
 
-fun CachedMovie.map() : MovieEntity{
+internal fun CachedMovie.map() : MovieEntity{
     return MovieEntity(
         adult = this.adult,
         backdropPath = this.backdropPath,
