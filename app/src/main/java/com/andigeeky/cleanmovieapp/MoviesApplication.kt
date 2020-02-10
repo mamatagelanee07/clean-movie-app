@@ -20,7 +20,6 @@ class MoviesApplication : Application(), HasAndroidInjector{
         super.onCreate()
         AppInjector.init(this)
         setupTimber()
-//        setupRxErrorHandler()
     }
 
     private fun setupTimber() {
@@ -29,14 +28,5 @@ class MoviesApplication : Application(), HasAndroidInjector{
         }
     }
 
-    private fun setupRxErrorHandler() {
-        RxJavaPlugins.setErrorHandler { error: Throwable? ->
-            when(error){
-                is IOException -> Toast.makeText(
-                    this, "There is no internet connection. Please try again later", Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
     override fun androidInjector() = androidInjector
 }
