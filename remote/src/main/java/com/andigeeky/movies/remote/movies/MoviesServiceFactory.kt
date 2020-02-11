@@ -20,7 +20,7 @@ object MoviesServiceFactory {
 
     private fun make(okHttpClient: OkHttpClient, gson: Gson): MoviesService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/movie/")
+            .baseUrl("https://api.themoviedb.org/3/")
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
