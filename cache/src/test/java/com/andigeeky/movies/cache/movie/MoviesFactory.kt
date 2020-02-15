@@ -1,11 +1,11 @@
 package com.andigeeky.movies.cache.movie
 
-import com.andigeeky.movies.cache.movie.popular.model.CachedMovie
+import com.andigeeky.movies.data.movies.details.model.*
 import com.andigeeky.movies.data.movies.popular.model.MovieEntity
 import com.andigeeky.movies.data.movies.popular.model.PopularMoviesEntity
 
 internal object MoviesFactory {
-    fun getPopularMoviesEntity(pageNumber : Int, size : Int) : PopularMoviesEntity{
+    fun getPopularMoviesEntity(pageNumber: Int, size: Int): PopularMoviesEntity {
         return PopularMoviesEntity(
             page = pageNumber,
             totalPages = pageNumber * 5,
@@ -14,32 +14,7 @@ internal object MoviesFactory {
         )
     }
 
-    fun getMoviesCache(count: Int) : List<CachedMovie>{
-        val movies = mutableListOf<CachedMovie>()
-        repeat(count) { index ->
-            movies.add(
-                CachedMovie(
-                    adult = false,
-                    backdropPath = "/ndlQ2Cuc3cjTL7lTynw6I4boP4S.jpg",
-                    genreIds = listOf(index, index * 10, index * 20),
-                    id = index,
-                    originalLanguage = "en",
-                    originalTitle = "Suicide Squad",
-                    overview = "From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government, undertaking high-risk black ops missions in exchange for commuted prison sentences.",
-                    popularity = 30.690177,
-                    posterPath = "/lFSSLTlFozwpaGlO31OoUeirBgQ.jpg",
-                    releaseDate = "2016-08-03",
-                    title = "Suicide Squad",
-                    video = false,
-                    voteAverage = 5.91,
-                    voteCount = 1466
-                )
-            )
-        }
-        return movies
-    }
-
-    fun getMoviesEntity(count: Int) : List<MovieEntity>{
+    private fun getMoviesEntity(count: Int): List<MovieEntity> {
         val movies = mutableListOf<MovieEntity>()
         repeat(count) { index ->
             movies.add(
@@ -62,5 +37,89 @@ internal object MoviesFactory {
             )
         }
         return movies
+    }
+
+    fun getMovieDetailEntity(id: Int, size: Int): MovieDetailsEntity {
+        return MovieDetailsEntity(
+            adult = false,
+            belongsToCollection = false,
+            budget = id * 10000,
+            id = id,
+            popularity = id * 0.1,
+            posterPath = null,
+            revenue = id,
+            runtime = id,
+            video = id % 2 == 0,
+            voteAverage = id * 0.3,
+            voteCount = id,
+            backdropPath = "",
+            status = "",
+            homepage = "",
+            imdbId = "",
+            originalLanguage = "",
+            overview = "",
+            originalTitle = "",
+            releaseDate = "",
+            tagline = "",
+            title = "",
+            genres = getGenreEntities(size),
+            productionCompanies = getProductionCompanyEntities(size),
+            productionCountries = getProductionCountryEntities(size),
+            spokenLanguages = getSpokenLanguageEntities(size)
+        )
+    }
+
+    private fun getGenreEntities(size: Int) : List<GenreEntity>{
+        val genres = mutableListOf<GenreEntity>()
+        repeat(size) {
+            genres.add(
+                GenreEntity(
+                    id = it,
+                    name = "name $it"
+                )
+            )
+        }
+        return genres
+    }
+
+    private fun getProductionCompanyEntities(size: Int) : List<ProductionCompanyEntity>{
+        val list = mutableListOf<ProductionCompanyEntity>()
+        repeat(size) {
+            list.add(
+                ProductionCompanyEntity(
+                    id = it,
+                    name = "name $it",
+                    originCountry = "originCountry $it",
+                    logoPath = "logoPath $it"
+                )
+            )
+        }
+        return list
+    }
+
+    private fun getProductionCountryEntities(size: Int) : List<ProductionCountryEntity>{
+        val list = mutableListOf<ProductionCountryEntity>()
+        repeat(size) {
+            list.add(
+                ProductionCountryEntity(
+                    iso31661 = it.toString(),
+                    name = "name $it"
+                )
+            )
+        }
+        return list
+    }
+
+    private fun getSpokenLanguageEntities(size: Int) : List<SpokenLanguageEntity>{
+        val list = mutableListOf<SpokenLanguageEntity>()
+        repeat(size) {
+            list.add(
+                SpokenLanguageEntity(
+                    iso6391 = it.toString(),
+                    name = "name $it"
+                )
+            )
+        }
+        return list
     }
 }

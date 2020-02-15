@@ -1,6 +1,6 @@
 package com.andigeeky.movies.domain.test
 
-import com.andigeeky.movies.domain.movies.detail.model.MovieDetails
+import com.andigeeky.movies.domain.movies.detail.model.*
 import com.andigeeky.movies.domain.movies.popular.model.Movie
 import com.andigeeky.movies.domain.movies.popular.model.PopularMovies
 
@@ -11,22 +11,6 @@ internal object MoviesFactory {
             totalPages = page * 5,
             totalResults = page * 10,
             results = getMovies(size)
-        )
-    }
-
-    fun getMovieDetails(id: Int): MovieDetails {
-        return MovieDetails(
-            adult = false,
-            belongsToCollection = false,
-            budget = id * 10000,
-            id = id,
-            popularity = id * 0.1,
-            posterPath = null,
-            revenue = id,
-            runtime = id,
-            video = id % 2 == 0,
-            voteAverage = id * 0.3,
-            voteCount = id
         )
     }
 
@@ -53,5 +37,89 @@ internal object MoviesFactory {
             )
         }
         return movies
+    }
+
+    fun getMovieDetail(id: Int, size: Int): MovieDetails {
+        return MovieDetails(
+            adult = false,
+            belongsToCollection = false,
+            budget = id * 10000,
+            id = id,
+            popularity = id * 0.1,
+            posterPath = null,
+            revenue = id,
+            runtime = id,
+            video = id % 2 == 0,
+            voteAverage = id * 0.3,
+            voteCount = id,
+            backdropPath = "",
+            status = "",
+            homepage = "",
+            imdbId = "",
+            originalLanguage = "",
+            overview = "",
+            originalTitle = "",
+            releaseDate = "",
+            tagline = "",
+            title = "",
+            genres = getGenre(size),
+            productionCompanies = getProductionCompany(size),
+            productionCountries = getProductionCountry(size),
+            spokenLanguages = getSpokenLanguage(size)
+        )
+    }
+
+    private fun getGenre(size: Int) : List<Genre>{
+        val genres = mutableListOf<Genre>()
+        repeat(size) {
+            genres.add(
+                Genre(
+                    id = it,
+                    name = "name $it"
+                )
+            )
+        }
+        return genres
+    }
+
+    private fun getProductionCompany(size: Int) : List<ProductionCompany>{
+        val list = mutableListOf<ProductionCompany>()
+        repeat(size) {
+            list.add(
+                ProductionCompany(
+                    id = it,
+                    name = "name $it",
+                    originCountry = "originCountry $it",
+                    logoPath = "logoPath $it"
+                )
+            )
+        }
+        return list
+    }
+
+    private fun getProductionCountry(size: Int) : List<ProductionCountry>{
+        val list = mutableListOf<ProductionCountry>()
+        repeat(size) {
+            list.add(
+                ProductionCountry(
+                    iso31661 = it.toString(),
+                    name = "name $it"
+                )
+            )
+        }
+        return list
+    }
+
+    private fun getSpokenLanguage(size: Int) : List<SpokenLanguage>{
+        val list = mutableListOf<SpokenLanguage>()
+        repeat(size) {
+            list.add(
+                SpokenLanguage(
+                    iso6391 = it.toString(),
+                    name = "name $it"
+                )
+            )
+        }
+        return list
     }
 }

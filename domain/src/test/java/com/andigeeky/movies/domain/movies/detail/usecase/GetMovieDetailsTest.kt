@@ -21,7 +21,8 @@ class GetMovieDetailsTest {
     private lateinit var repository: MovieDetailsRepository
 
     private val movieId = 2
-    private val movies = MoviesFactory.getMovieDetails(movieId)
+    private val size = 2
+    private val movies = MoviesFactory.getMovieDetail(movieId, size)
 
     @Before
     fun setUp() {

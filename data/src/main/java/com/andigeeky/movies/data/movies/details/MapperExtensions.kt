@@ -3,7 +3,7 @@ package com.andigeeky.movies.data.movies.details
 import com.andigeeky.movies.data.movies.details.model.*
 import com.andigeeky.movies.domain.movies.detail.model.*
 
-fun MovieDetailsEntity.map(): MovieDetails {
+internal fun MovieDetailsEntity.map(): MovieDetails {
     return MovieDetails(
         adult = this.adult,
         belongsToCollection = this.belongsToCollection,
@@ -33,7 +33,7 @@ fun MovieDetailsEntity.map(): MovieDetails {
     )
 }
 
-fun MovieDetails.map(): MovieDetailsEntity {
+internal fun MovieDetails.map(): MovieDetailsEntity {
     return MovieDetailsEntity(
         adult = this.adult,
         belongsToCollection = this.belongsToCollection,
