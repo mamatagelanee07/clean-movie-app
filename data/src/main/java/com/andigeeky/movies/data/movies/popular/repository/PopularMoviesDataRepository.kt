@@ -24,9 +24,10 @@ class PopularMoviesDataRepository @Inject constructor(
         val dbCall = popularMoviesDataFactory
             .retrieveCacheDataStore()
             .getMovies(pageNumber)
-            .flatMap { Flowable.just(it.mapEntity()) }
+            .map { it.mapEntity() }
+            .toFlowable()
 
-        return Flowable.concat(dbCall, apiCall)
+        return Flowable.mergeDelayError(dbCall, apiCall)
     }
 
     override fun clearMovies(): Completable {

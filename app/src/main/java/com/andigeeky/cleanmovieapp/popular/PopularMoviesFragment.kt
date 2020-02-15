@@ -47,6 +47,7 @@ class PopularMoviesFragment : Fragment(), Injectable,
     private var movies = mutableSetOf<Movie?>()
 
     private var currentState: PopularMoviesViewState = PopularMoviesViewState.IDLE
+    private var currentPage: Int? = null
     private val nextPageIntent =
         BehaviorSubject.create<PopularMoviesIntent.LoadNextPopularMoviesIntent>()
     private val initialIntent = Observable
@@ -87,8 +88,8 @@ class PopularMoviesFragment : Fragment(), Injectable,
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 val lastPosition = layoutManager.findLastVisibleItemPosition()
-                if (lastPosition == adapter.itemCount - 1 && currentState is PopularMoviesViewState.SUCCESS) {
-                    currentState.result?.page?.let {
+                if (lastPosition == adapter.itemCount - 1 && !currentState.loading) {
+                    currentPage?.let {
                         nextPageIntent.onNext(
                             PopularMoviesIntent.LoadNextPopularMoviesIntent(
                                 it.plus(1)
@@ -123,6 +124,11 @@ class PopularMoviesFragment : Fragment(), Injectable,
                 adapter.submitList(movies.filterNotNull().toList())
             }
             is PopularMoviesViewState.SUCCESS -> {
+
+                state.popularMovies?.page?.let {
+                    currentPage = it
+                }
+
                 state.popularMovies?.let {
                     movies = movies.filterNotNull().toMutableSet()
                     it.results?.let { movieList ->

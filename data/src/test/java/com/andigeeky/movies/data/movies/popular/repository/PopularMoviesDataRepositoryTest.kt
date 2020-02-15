@@ -10,6 +10,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,7 +47,7 @@ class PopularMoviesDataRepositoryTest {
             .thenReturn(Completable.complete())
 
         whenever(popularMoviesDataFactory.retrieveCacheDataStore().getMovies(pageNumber))
-            .thenReturn(Flowable.just(movies))
+            .thenReturn(Single.just(movies))
         whenever(popularMoviesDataFactory.retrieveRemoteDataStore().getMovies(pageNumber))
             .thenReturn(Flowable.just(movies))
 
@@ -56,12 +57,6 @@ class PopularMoviesDataRepositoryTest {
     fun testGetMoviesReturnsMovies(){
         val testObserver = popularMoviesDataRepository.getMovies(pageNumber).test()
         testObserver.assertValueAt(1, movies.mapEntity())
-    }
-
-    @Test
-    fun testGetMoviesCompletes(){
-        val testObserver = popularMoviesDataRepository.getMovies(5).test()
-        testObserver.assertComplete()
     }
 
     @Test

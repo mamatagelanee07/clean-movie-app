@@ -6,14 +6,14 @@ import com.andigeeky.movies.cache.movie.popular.model.CachedMoviePages
 import com.andigeeky.movies.cache.movie.popular.model.CachedPageWithMovies
 import com.andigeeky.movies.cache.movie.popular.model.CachedPopularMovies
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface CachedPopularMoviesDao {
 
     @Transaction
     @Query("select * from CachedMoviePages where page = :pageNumber")
-    fun getPopularMovies(pageNumber : Int?): Flowable<CachedPopularMovies?>
+    fun getPopularMovies(pageNumber : Int?): Single<CachedPopularMovies?>
 
     @Query("Delete from CachedMoviePages")
     fun clearPopularMovies(): Completable
