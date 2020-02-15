@@ -1,12 +1,13 @@
-package com.andigeeky.cleanmovieapp
+package com.andigeeky.cleanmovieapp.popular
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
+import com.andigeeky.cleanmovieapp.R
 import com.andigeeky.cleanmovieapp.databinding.ItemMovieBinding
-import com.andigeeky.cleanmovieapp.ui.common.DataBoundListAdapter
+import com.andigeeky.cleanmovieapp.common.DataBoundListAdapter
 import com.andigeeky.movies.data.executor.JobExecutor
 import com.andigeeky.movies.domain.movies.popular.model.Movie
 

@@ -1,4 +1,4 @@
-package com.andigeeky.cleanmovieapp.ui.common
+package com.andigeeky.cleanmovieapp.common
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver

@@ -23,7 +23,8 @@ class MovieDetailsDataRepositoryTest {
     private lateinit var movieDetailsCache: MovieDetailsCache
     private lateinit var movieDetailsRemote: MovieDetailsRemote
     private val id = 1
-    private val detail = MoviesFactory.getMovieDetails(id)
+    private val size = 1
+    private val detail = MoviesFactory.getMovieDetailEntity(id, size)
 
     @Before
     fun setUp(){

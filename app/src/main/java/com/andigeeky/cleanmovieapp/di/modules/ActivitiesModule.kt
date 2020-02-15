@@ -1,7 +1,7 @@
 package com.andigeeky.cleanmovieapp.di.modules
 
 import com.andigeeky.cleanmovieapp.MainActivity
-import com.andigeeky.cleanmovieapp.MainThread
+import com.andigeeky.cleanmovieapp.threads.MainThread
 import com.andigeeky.movies.domain.executor.PostExecutionThread
 import dagger.Binds
 import dagger.Module

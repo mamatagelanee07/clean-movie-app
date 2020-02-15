@@ -1,4 +1,4 @@
-package com.andigeeky.cleanmovieapp.ui.common
+package com.andigeeky.cleanmovieapp.common
 
 import androidx.databinding.BindingAdapter
 import android.view.View

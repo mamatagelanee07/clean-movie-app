@@ -1,4 +1,4 @@
-package com.andigeeky.cleanmovieapp
+package com.andigeeky.cleanmovieapp.popular
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,10 +13,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.andigeeky.cleanmovieapp.R
+import com.andigeeky.cleanmovieapp.common.FragmentDataBindingComponent
+import com.andigeeky.cleanmovieapp.common.autoCleared
 import com.andigeeky.cleanmovieapp.databinding.FragmentPopularMovieBinding
 import com.andigeeky.cleanmovieapp.di.Injectable
-import com.andigeeky.cleanmovieapp.ui.common.FragmentDataBindingComponent
-import com.andigeeky.cleanmovieapp.ui.common.autoCleared
 import com.andigeeky.movies.data.executor.JobExecutor
 import com.andigeeky.movies.domain.movies.popular.model.Movie
 import com.andigeeky.movies.presentation.common.BaseView
@@ -32,7 +33,7 @@ import javax.inject.Inject
 /**
  * The UI Controller for displaying all Lines information of TFL.
  */
-class PopularMoviesFragment : Fragment(), Injectable ,
+class PopularMoviesFragment : Fragment(), Injectable,
     BaseView<PopularMoviesIntent, PopularMoviesViewState> {
 
     @Inject
@@ -44,8 +45,8 @@ class PopularMoviesFragment : Fragment(), Injectable ,
 
     private val compositeDisposable = CompositeDisposable()
     private var movies = mutableSetOf<Movie?>()
-    private var popularMoviesViewState : PopularMoviesViewState = PopularMoviesViewState.IDLE
 
+    private var currentState: PopularMoviesViewState = PopularMoviesViewState.IDLE
     private val nextPageIntent =
         BehaviorSubject.create<PopularMoviesIntent.LoadNextPopularMoviesIntent>()
     private val initialIntent = Observable
@@ -86,9 +87,14 @@ class PopularMoviesFragment : Fragment(), Injectable ,
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 val lastPosition = layoutManager.findLastVisibleItemPosition()
-                if (lastPosition == adapter.itemCount - 1 && !popularMoviesViewState.loading) {
-                    val pageNumber = popularMoviesViewState.result?.page?.plus(1) ?: 1
-                    nextPageIntent.onNext(PopularMoviesIntent.LoadNextPopularMoviesIntent((pageNumber)))
+                if (lastPosition == adapter.itemCount - 1 && currentState is PopularMoviesViewState.SUCCESS) {
+                    currentState.result?.page?.let {
+                        nextPageIntent.onNext(
+                            PopularMoviesIntent.LoadNextPopularMoviesIntent(
+                                it.plus(1)
+                            )
+                        )
+                    }
                 }
             }
         })
@@ -103,20 +109,23 @@ class PopularMoviesFragment : Fragment(), Injectable ,
     }
 
     override fun intents(): Observable<PopularMoviesIntent> {
-        return Observable.merge(initialIntent,
-            nextPageIntent)
+        return Observable.merge(
+            initialIntent,
+            nextPageIntent
+        )
     }
 
     override fun render(state: PopularMoviesViewState) {
-        popularMoviesViewState = state
+        currentState = state
         when (state) {
             is PopularMoviesViewState.ERROR -> {
                 makeToast("error while loading movie")
+                adapter.submitList(movies.filterNotNull().toList())
             }
             is PopularMoviesViewState.SUCCESS -> {
                 state.popularMovies?.let {
                     movies = movies.filterNotNull().toMutableSet()
-                    it.results?.let {movieList ->
+                    it.results?.let { movieList ->
                         movies.addAll(movieList.filterNotNull().toList())
                     }
                     movies.add(null)
@@ -126,8 +135,8 @@ class PopularMoviesFragment : Fragment(), Injectable ,
         }
     }
 
-    private fun makeToast(message: String){
-        Toast.makeText(activity,message, Toast.LENGTH_LONG).show()
+    private fun makeToast(message: String) {
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
     /**

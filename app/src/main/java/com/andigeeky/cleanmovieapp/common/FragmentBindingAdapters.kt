@@ -1,4 +1,4 @@
-package com.andigeeky.cleanmovieapp.ui.common
+package com.andigeeky.cleanmovieapp.common
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView

@@ -1,6 +1,6 @@
 package com.andigeeky.cleanmovieapp.di.modules
 
-import com.andigeeky.cleanmovieapp.PopularMoviesFragment
+import com.andigeeky.cleanmovieapp.popular.PopularMoviesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

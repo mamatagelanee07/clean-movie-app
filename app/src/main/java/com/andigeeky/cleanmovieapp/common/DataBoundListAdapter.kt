@@ -1,4 +1,4 @@
-package com.andigeeky.cleanmovieapp.ui.common
+package com.andigeeky.cleanmovieapp.common
 
 import androidx.databinding.ViewDataBinding
 import android.view.ViewGroup

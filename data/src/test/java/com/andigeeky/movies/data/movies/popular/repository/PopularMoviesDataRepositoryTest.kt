@@ -59,6 +59,12 @@ class PopularMoviesDataRepositoryTest {
     }
 
     @Test
+    fun testGetMoviesCompletes(){
+        val testObserver = popularMoviesDataRepository.getMovies(5).test()
+        testObserver.assertComplete()
+    }
+
+    @Test
     fun testSaveMoviesCompletes() {
         val testObserver = popularMoviesDataRepository.saveMovies(
             movies.mapEntity()).test()

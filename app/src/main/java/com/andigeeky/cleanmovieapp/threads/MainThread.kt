@@ -1,4 +1,4 @@
-package com.andigeeky.cleanmovieapp
+package com.andigeeky.cleanmovieapp.threads
 
 import com.andigeeky.movies.domain.executor.PostExecutionThread
 import io.reactivex.Scheduler
