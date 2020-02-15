@@ -2,6 +2,9 @@ package com.andigeeky.movies.presentation.popular
 
 import androidx.lifecycle.ViewModel
 import com.andigeeky.movies.presentation.common.BaseViewModel
+import com.andigeeky.movies.presentation.common.FAILURE
+import com.andigeeky.movies.presentation.common.LOADING
+import com.andigeeky.movies.presentation.common.SUCCESS
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction

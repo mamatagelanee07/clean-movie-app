@@ -1,7 +1,7 @@
 package com.andigeeky.movies.presentation.popular
 
 import com.andigeeky.movies.domain.movies.popular.model.PopularMovies
-import com.andigeeky.movies.presentation.common.BaseResult
+import com.andigeeky.movies.presentation.common.*
 
 sealed class PopularMoviesResult : BaseResult
 

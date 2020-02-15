@@ -1,4 +1,4 @@
-package com.andigeeky.movies.presentation.popular
+package com.andigeeky.movies.presentation.common
 
 sealed class TaskStatus
 
