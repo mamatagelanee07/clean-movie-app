@@ -27,7 +27,7 @@ class PopularMoviesDataRepository @Inject constructor(
             .map { it.mapEntity() }
             .toFlowable()
 
-        return Flowable.mergeDelayError(dbCall, apiCall)
+        return Flowable.concatArrayDelayError(dbCall, apiCall)
     }
 
     override fun clearMovies(): Completable {
